@@ -1,0 +1,6 @@
+.container {
+  padding: 1.8vw 3vw;
+  display: flex;
+  gap: 2rem;
+  overflow-x: auto;
+}

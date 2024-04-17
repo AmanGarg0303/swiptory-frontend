@@ -1,0 +1,27 @@
+.card {
+  position: relative;
+
+  .cardImg {
+    width: 13.2rem;
+    height: 13.2rem;
+    background-size: cover;
+    filter: brightness(65%);
+    border-radius: 20px;
+    border: 5px solid var(--card-border);
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .catName {
+    color: green;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 26px;
+    white-space: wrap;
+    text-align: center;
+  }
+}
