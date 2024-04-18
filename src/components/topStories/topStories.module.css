@@ -25,6 +25,10 @@
       color: white;
       border-radius: 17px;
       margin-top: 1.5rem;
+      &:hover {
+        cursor: pointer;
+        filter: brightness(1.09);
+      }
     }
   }
 }

@@ -17,21 +17,25 @@ export const TopStories = () => {
           Top Stories about Health and Fitness
         </h4>
         <Stories />
+        <button className={styles.seeMoreBtn}>See More</button>
       </div>
 
       <div className={styles.story}>
         <h4 className={styles.storyCat}>Top Stories about Travel</h4>
         <Stories />
+        <button className={styles.seeMoreBtn}>See More</button>
       </div>
 
       <div className={styles.story}>
         <h4 className={styles.storyCat}>Top Stories about Movies</h4>
         <Stories />
-      </div>
+        <button className={styles.seeMoreBtn}>See More</button>
 
-      <div className={styles.story}>
-        <h4 className={styles.storyCat}>Top Stories about Education</h4>
-        <Stories />
+        <div className={styles.story}>
+          <h4 className={styles.storyCat}>Top Stories about Education</h4>
+          <Stories />
+          <button className={styles.seeMoreBtn}>See More</button>
+        </div>
       </div>
     </div>
   );
