@@ -1,0 +1,48 @@
+.singleStory {
+  position: relative;
+  /* background-color: green; */
+  margin: 0 1rem;
+  display: inline-block;
+
+  .storyImage {
+    width: 20rem;
+    height: 28rem;
+    border-radius: 5%;
+    display: block;
+    object-fit: cover;
+  }
+
+  .storyContent {
+    position: absolute;
+    /* background-color: red; */
+    bottom: 1.8rem;
+    left: 1rem;
+    right: 2rem;
+    color: white !important;
+
+    .storyTitle {
+      font-size: 1rem;
+    }
+
+    .storyDesc {
+      font-size: 0.7rem;
+    }
+  }
+}
+
+.singleStory::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 5%;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0) 50%,
+    rgba(0, 0, 0, 1) 100%
+  );
+  pointer-events: none; /* Allow clicks to pass through to the image */
+}

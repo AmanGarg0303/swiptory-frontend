@@ -2,6 +2,7 @@
   position: relative;
 
   .cardImg {
+    display: block;
     width: 13.2rem;
     height: 13.2rem;
     background-size: cover;
