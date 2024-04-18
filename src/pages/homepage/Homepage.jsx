@@ -7,7 +7,7 @@ import { TopStories } from "../../components/topStories/TopStories";
 export default function Homepage() {
   return (
     <div className={styles.container}>
-      <Navbar />
+      {/* <Navbar /> */}
       <Cards />
       <TopStories />
     </div>
