@@ -21,7 +21,7 @@
     .register {
       all: unset;
       flex: 1 1 0;
-      background-color: #ff7272;
+      background-color: var(--red-btn);
       padding: 0.5rem 0.8rem;
       border-radius: 17px;
       width: 8rem;
@@ -33,7 +33,7 @@
     .login {
       all: unset;
       flex: 1 1 0;
-      background-color: #73aafe;
+      background-color: var(--blue-btn);
       padding: 0.5rem 0.8rem;
       border-radius: 17px;
       width: 8rem;

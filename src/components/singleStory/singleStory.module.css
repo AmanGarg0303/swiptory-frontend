@@ -1,6 +1,5 @@
 .singleStory {
   position: relative;
-  /* background-color: green; */
   margin: 0 1rem;
   display: inline-block;
 
@@ -14,7 +13,6 @@
 
   .storyContent {
     position: absolute;
-    /* background-color: red; */
     bottom: 1.8rem;
     left: 1rem;
     right: 2rem;

@@ -1,5 +1,6 @@
 .card {
   position: relative;
+  cursor: pointer;
 
   .cardImg {
     display: block;
@@ -9,13 +10,9 @@
     filter: brightness(65%);
     border-radius: 20px;
     border: 5px solid var(--card-border);
-    &:hover {
-      cursor: pointer;
-    }
   }
 
   .catName {
-    color: green;
     position: absolute;
     top: 50%;
     left: 50%;

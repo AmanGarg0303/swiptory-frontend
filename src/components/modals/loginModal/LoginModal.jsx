@@ -61,7 +61,7 @@ export const LoginModal = ({ openLoginModal, setOpenLoginModal }) => {
 
         <div className={styles.modal_btn_div}>
           <button type="submit" className={styles.modalBtn}>
-            Register
+            Login
           </button>
         </div>
       </form>
