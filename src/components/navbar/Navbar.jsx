@@ -4,6 +4,7 @@ import { RegisterModal } from "../modals/registerModal/RegisterModal";
 import { LoginModal } from "../modals/loginModal/LoginModal";
 import { FaBookmark } from "react-icons/fa";
 import { IoMenuSharp } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 export const Navbar = () => {
   const user = true;
@@ -16,7 +17,9 @@ export const Navbar = () => {
   return (
     <div>
       <div className={styles.main_container}>
-        <h1 className={styles.title}>SwipTory</h1>
+        <Link to={"/"} className={styles.link}>
+          <h1 className={styles.title}>SwipTory</h1>
+        </Link>
         {!user ? (
           <div className={styles.btns}>
             <button
@@ -44,10 +47,12 @@ export const Navbar = () => {
         ) : (
           <div className={styles.availabeUserBtns}>
             <div className={styles.btns}>
-              <button className={styles.bookmarks}>
-                <FaBookmark fill="white" />
-                Bookmarks
-              </button>
+              <Link to={"/bookmarks"} className={styles.link}>
+                <button className={styles.bookmarks}>
+                  <FaBookmark fill="white" />
+                  Bookmarks
+                </button>
+              </Link>
 
               <button className={styles.addStory}>Add Story</button>
             </div>
