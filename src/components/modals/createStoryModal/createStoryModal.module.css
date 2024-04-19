@@ -1,0 +1,114 @@
+.closeBtn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  color: red;
+  cursor: pointer;
+}
+
+.slides {
+  padding: 0.5rem 1rem;
+
+  .slideBoxes {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 4px 8px;
+    justify-content: center;
+  }
+
+  .slideBox {
+    width: 3.7rem;
+    height: 3rem;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.2);
+    padding: 0.1rem 0.5rem;
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    border-radius: 10%;
+    cursor: pointer;
+
+    .slideCross {
+      color: red;
+      cursor: pointer;
+    }
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem 0;
+
+  .formDivs {
+    margin: 0.5rem 1rem;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .formDivs > label {
+    font-size: medium;
+    font-weight: 600;
+  }
+
+  .formDivs > input,
+  .formDivs > textarea,
+  .formDivs > select {
+    width: 65%;
+    padding: 1.6px 6px;
+    resize: none;
+    font-size: 14px;
+  }
+
+  .btns {
+    display: flex;
+    justify-content: space-between;
+    margin: 0.5rem 1rem;
+
+    .changeSlideBtns {
+      display: flex;
+      gap: 0 1rem;
+
+      .prev {
+        width: 6rem;
+        padding: 0.4rem 0.8rem;
+        border-radius: 17px;
+        background-color: #7efe72;
+        border: none;
+        color: white;
+        &:hover {
+          cursor: pointer;
+          filter: brightness(1.09);
+        }
+      }
+
+      .next {
+        width: 6rem;
+        padding: 0.4rem 0.8rem;
+        border-radius: 17px;
+        background-color: var(--blue-btn);
+        border: none;
+        color: white;
+        &:hover {
+          cursor: pointer;
+          filter: brightness(1.09);
+        }
+      }
+    }
+
+    .post {
+      width: 6rem;
+      padding: 0.4rem 0.8rem;
+      border-radius: 17px;
+      background-color: var(--red-btn);
+      border: none;
+      color: white;
+      &:hover {
+        cursor: pointer;
+        filter: brightness(1.09);
+      }
+    }
+  }
+}

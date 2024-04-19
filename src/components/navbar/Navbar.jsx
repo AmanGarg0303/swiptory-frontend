@@ -5,6 +5,8 @@ import { LoginModal } from "../modals/loginModal/LoginModal";
 import { FaBookmark } from "react-icons/fa";
 import { IoMenuSharp } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import { CreateStoryModal } from "../modals/createStoryModal/CreateStoryModal";
+import AddStory from "../modals/addStoryModal/AddStoryModal";
 
 export const Navbar = () => {
   const user = true;
@@ -12,8 +14,8 @@ export const Navbar = () => {
   const [openRegisterModal, setOpenRegisterModal] = useState(false);
   const [openLoginModal, setOpenLoginModal] = useState(false);
   const [openHamburgerMenu, setOpenHamburgerMenu] = useState(false);
+  const [openCreateStoryModal, setOpenCreateStoryModal] = useState(false);
 
-  console.log(openHamburgerMenu);
   return (
     <div>
       <div className={styles.main_container}>
@@ -54,7 +56,16 @@ export const Navbar = () => {
                 </button>
               </Link>
 
-              <button className={styles.addStory}>Add Story</button>
+              <button
+                onClick={() => setOpenCreateStoryModal(true)}
+                className={styles.addStory}
+              >
+                Add Story
+              </button>
+              <AddStory
+                openCreateStoryModal={openCreateStoryModal}
+                setOpenCreateStoryModal={setOpenCreateStoryModal}
+              />
             </div>
 
             <img
