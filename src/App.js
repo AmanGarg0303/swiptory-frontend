@@ -3,8 +3,12 @@ import "./App.css";
 import Homepage from "./pages/homepage/Homepage";
 import { Navbar } from "./components/navbar/Navbar";
 import Bookmarks from "./pages/bookmarks/Bookmarks";
+import { ViewStory } from "./components/viewStory/ViewStory";
+import { useState } from "react";
 
 function App() {
+  const [openViewStoryModal, setOpenViewStoryModal] = useState(false);
+
   const HomeLayout = () => {
     return (
       <div className="App">
@@ -26,6 +30,16 @@ function App() {
         {
           path: "/bookmarks",
           element: <Bookmarks />,
+        },
+        {
+          path: "/viewStory/:storyId",
+          element: (
+            <ViewStory
+              openViewStoryModal={openViewStoryModal}
+              setOpenViewStoryModal={setOpenViewStoryModal}
+              storyIdTrue={true}
+            />
+          ),
         },
       ],
     },

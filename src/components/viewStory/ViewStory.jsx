@@ -1,15 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { Modal } from "@mantine/core";
 import styles from "./viewStory.module.css";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { FaBookmark } from "react-icons/fa";
 import { FaHeart, FaRegHeart, FaShare } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 
-export const ViewStory = ({ openViewStoryModal, setOpenViewStoryModal }) => {
+export const ViewStory = ({
+  openViewStoryModal,
+  setOpenViewStoryModal,
+  storyIdTrue,
+}) => {
   const searchParams = useSearchParams();
   const { storyId } = searchParams;
+  if (storyId) {
+    console.log(storyId);
+  }
+
+  useEffect(() => {
+    if (storyIdTrue) {
+      setOpenViewStoryModal(true);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [storyId]);
+
   // console.log(storyId);
 
   // if coming through story id, it means coming form a link, fetch the story here
@@ -65,6 +81,7 @@ export const ViewStory = ({ openViewStoryModal, setOpenViewStoryModal }) => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentSlideIndex]);
+  const navigate = useNavigate();
 
   return (
     <>
@@ -135,7 +152,10 @@ export const ViewStory = ({ openViewStoryModal, setOpenViewStoryModal }) => {
           <div>
             <div
               className={styles.closeIcon}
-              onClick={() => setOpenViewStoryModal(false)}
+              onClick={() => {
+                setOpenViewStoryModal(false);
+                navigate("/");
+              }}
             >
               <IoClose size={25} />
             </div>

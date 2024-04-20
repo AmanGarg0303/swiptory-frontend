@@ -30,6 +30,7 @@ export const SingleStory = () => {
       <ViewStory
         openViewStoryModal={openViewStoryModal}
         setOpenViewStoryModal={setOpenViewStoryModal}
+        // storyIdTrue={true}
       />
     </>
   );
