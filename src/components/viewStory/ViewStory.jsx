@@ -11,6 +11,7 @@ export const ViewStory = ({
   openViewStoryModal,
   setOpenViewStoryModal,
   storyIdTrue,
+  singleStory,
 }) => {
   const searchParams = useSearchParams();
   const { storyId } = searchParams;
@@ -31,26 +32,26 @@ export const ViewStory = ({
   // if coming through story id, it means coming form a link, fetch the story here
   // create a route /viewStory/1234567, and fetch the story, if we have storyId
 
-  const story = [
-    {
-      heading: "First story",
-      desc: "first story description",
-      imgUrl:
-        "https://i.pinimg.com/474x/38/9c/ab/389cab4fab3baa1227257cd58e765237.jpg",
-    },
-    {
-      heading: "Second Story",
-      desc: "second story description",
-      imgUrl:
-        "https://images.unsplash.com/photo-1544376798-89aa6b82c6cd?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dmVydGljYWwlMjBsYW5kc2NhcGV8ZW58MHx8MHx8fDA%3D",
-    },
-    {
-      heading: "third story",
-      desc: "third story description",
-      imgUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1u7IwgWuPpwVyK95isXHvNR4GaRpsA-ph6I-zVoQrvA&s",
-    },
-  ];
+  // const story = [
+  //   {
+  //     heading: "First story",
+  //     desc: "first story description",
+  //     imgUrl:
+  //       "https://i.pinimg.com/474x/38/9c/ab/389cab4fab3baa1227257cd58e765237.jpg",
+  //   },
+  //   {
+  //     heading: "Second Story",
+  //     desc: "second story description",
+  //     imgUrl:
+  //       "https://images.unsplash.com/photo-1544376798-89aa6b82c6cd?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dmVydGljYWwlMjBsYW5kc2NhcGV8ZW58MHx8MHx8fDA%3D",
+  //   },
+  //   {
+  //     heading: "third story",
+  //     desc: "third story description",
+  //     imgUrl:
+  //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1u7IwgWuPpwVyK95isXHvNR4GaRpsA-ph6I-zVoQrvA&s",
+  //   },
+  // ];
 
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
 
@@ -61,7 +62,7 @@ export const ViewStory = ({
   }, [openViewStoryModal]);
 
   const handleNextSlide = () => {
-    if (currentSlideIndex < story.length - 1) {
+    if (currentSlideIndex < singleStory?.post.length - 1) {
       setCurrentSlideIndex(currentSlideIndex + 1);
     }
   };
@@ -135,7 +136,7 @@ export const ViewStory = ({
           </div> */}
 
           <div className={styles.progressBarContainer}>
-            {story.map((slide, index) => {
+            {singleStory?.post?.map((slide, index) => {
               const isCompleted = index <= currentSlideIndex;
               const isActive = index === currentSlideIndex;
               return (
@@ -165,23 +166,27 @@ export const ViewStory = ({
           </div>
 
           <img
-            src={story[currentSlideIndex]?.imgUrl}
+            src={singleStory?.post[currentSlideIndex]?.imgUrl}
             alt=""
             className={styles.storyImage}
           />
 
           <div>
             <h6 className={styles.title}>
-              {story[currentSlideIndex]?.heading}
+              {singleStory?.post[currentSlideIndex]?.heading}
             </h6>
-            <p className={styles.desc}>{story[currentSlideIndex]?.desc}</p>
+            <p className={styles.desc}>
+              {singleStory?.post[currentSlideIndex]?.description}
+            </p>
           </div>
 
           <div className={styles.iconDiv}>
             <FaBookmark className={styles.bookmarkIcon} size={30} />
             <div>
               <FaRegHeart className={styles.heartIcon} size={30} />
-              <p className={styles.numberOfLikes}>5</p>
+              <p className={styles.numberOfLikes}>
+                {singleStory?.likes.length}
+              </p>
             </div>
           </div>
         </div>

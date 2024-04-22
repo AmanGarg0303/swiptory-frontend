@@ -4,3 +4,17 @@
   gap: 2rem 0;
   overflow-x: auto;
 }
+
+.noStory {
+  height: 10rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+
+  .storyText {
+    color: gray;
+    text-align: center;
+    font-size: 20px;
+  }
+}

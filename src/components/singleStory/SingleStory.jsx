@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import styles from "./singleStory.module.css";
 import { ViewStory } from "../viewStory/ViewStory";
+import NoImage from "../../assets/No-Image-Placeholder.svg.png";
 
-export const SingleStory = () => {
+export const SingleStory = ({ singleStory }) => {
   const [openViewStoryModal, setOpenViewStoryModal] = useState(false);
 
   return (
@@ -12,17 +13,19 @@ export const SingleStory = () => {
         onClick={() => setOpenViewStoryModal(true)}
       >
         <img
-          src="https://i.pinimg.com/474x/38/9c/ab/389cab4fab3baa1227257cd58e765237.jpg"
+          src={
+            singleStory?.post[0]?.imgUrl
+              ? singleStory?.post[0]?.imgUrl
+              : NoImage
+          }
           alt=""
           className={styles.storyImage}
         />
         <div className={styles.dark}></div>
         <div className={styles.storyContent}>
-          <h6 className={styles.storyTitle}>Thor</h6>
+          <h6 className={styles.storyTitle}>{singleStory?.post[0]?.heading}</h6>
           <p className={styles.storyDesc}>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Officiis
-            dicta, vero soluta quidem natus ratione non tempore et expedita.
-            Similique?
+            {singleStory?.post[0]?.description}
           </p>
         </div>
       </div>
@@ -30,6 +33,7 @@ export const SingleStory = () => {
       <ViewStory
         openViewStoryModal={openViewStoryModal}
         setOpenViewStoryModal={setOpenViewStoryModal}
+        singleStory={singleStory}
         // storyIdTrue={true}
       />
     </>
