@@ -5,11 +5,10 @@ import { LoginModal } from "../modals/loginModal/LoginModal";
 import { FaBookmark } from "react-icons/fa";
 import { IoMenuSharp } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import { CreateStoryModal } from "../modals/createStoryModal/CreateStoryModal";
 import AddStory from "../modals/addStoryModal/AddStoryModal";
 
 export const Navbar = () => {
-  const user = true;
+  const user = false;
 
   const [openRegisterModal, setOpenRegisterModal] = useState(false);
   const [openLoginModal, setOpenLoginModal] = useState(false);
