@@ -1,42 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./topStories.module.css";
-import { Stories } from "../stories/Stories";
+import { Category } from "../category/Category";
+import { categoryData } from "../../utils/cardsData";
 
 export const TopStories = () => {
+  const [data, setData] = useState([]);
+  const api = async () => {};
+
   return (
     <div className={styles.container}>
-      <div className={styles.story}>
-        <h4 className={styles.storyCat}>Top Stories about Food</h4>
-        <Stories />
-
-        <button className={styles.seeMoreBtn}>See More</button>
-      </div>
-
-      <div className={styles.story}>
-        <h4 className={styles.storyCat}>
-          Top Stories about Health and Fitness
-        </h4>
-        <Stories />
-        <button className={styles.seeMoreBtn}>See More</button>
-      </div>
-
-      <div className={styles.story}>
-        <h4 className={styles.storyCat}>Top Stories about Travel</h4>
-        <Stories />
-        <button className={styles.seeMoreBtn}>See More</button>
-      </div>
-
-      <div className={styles.story}>
-        <h4 className={styles.storyCat}>Top Stories about Movies</h4>
-        <Stories />
-        <button className={styles.seeMoreBtn}>See More</button>
-
-        <div className={styles.story}>
-          <h4 className={styles.storyCat}>Top Stories about Education</h4>
-          <Stories />
-          <button className={styles.seeMoreBtn}>See More</button>
-        </div>
-      </div>
+      {categoryData.map((card) => (
+        <Category name={card.categoryName} key={card.id} />
+      ))}
     </div>
   );
 };
