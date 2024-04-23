@@ -2,17 +2,19 @@ import React, { useState } from "react";
 import styles from "./singleStory.module.css";
 import { ViewStory } from "../viewStory/ViewStory";
 import NoImage from "../../assets/No-Image-Placeholder.svg.png";
+import { TbEdit } from "react-icons/tb";
+import { useSelector } from "react-redux";
 
 export const SingleStory = ({ singleStory }) => {
   const [openViewStoryModal, setOpenViewStoryModal] = useState(false);
 
+  const { currentUser } = useSelector((state) => state.user);
+
   return (
     <>
-      <div
-        className={styles.singleStory}
-        onClick={() => setOpenViewStoryModal(true)}
-      >
+      <div className={styles.singleStory}>
         <img
+          onClick={() => setOpenViewStoryModal(true)}
           src={
             singleStory?.post[0]?.imgUrl
               ? singleStory?.post[0]?.imgUrl
@@ -28,6 +30,13 @@ export const SingleStory = ({ singleStory }) => {
             {singleStory?.post[0]?.description}
           </p>
         </div>
+
+        {currentUser && currentUser?._id === singleStory?.userId && (
+          <div className={styles.editBtn}>
+            <TbEdit size={21} />
+            Edit
+          </div>
+        )}
       </div>
 
       <ViewStory
