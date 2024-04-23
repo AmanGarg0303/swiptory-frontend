@@ -15,7 +15,7 @@ export const Card = ({ category }) => {
         style={{
           border:
             activeFilter === category.categoryName
-              ? "5px solid #01acd0"
+              ? "5px solid #20d7fe"
               : "5px solid transparent",
         }}
         alt={category.categoryName}

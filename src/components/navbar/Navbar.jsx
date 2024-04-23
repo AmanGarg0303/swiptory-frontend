@@ -6,14 +6,30 @@ import { FaBookmark } from "react-icons/fa";
 import { IoMenuSharp } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import AddStory from "../modals/addStoryModal/AddStoryModal";
+import { useSelector, useDispatch } from "react-redux";
+import newRequest from "../../utils/newRequest";
+import toast from "react-hot-toast";
+import { logout } from "../../redux/userSlice";
 
 export const Navbar = () => {
-  const user = false;
+  const { currentUser } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const [openRegisterModal, setOpenRegisterModal] = useState(false);
   const [openLoginModal, setOpenLoginModal] = useState(false);
   const [openHamburgerMenu, setOpenHamburgerMenu] = useState(false);
   const [openCreateStoryModal, setOpenCreateStoryModal] = useState(false);
+
+  const handleLogout = async () => {
+    try {
+      await newRequest.get(`/auth/logout`);
+      dispatch(logout());
+      toast.success("Logged out successfully!");
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong!");
+    }
+  };
 
   return (
     <div>
@@ -21,7 +37,7 @@ export const Navbar = () => {
         <Link to={"/"} className={styles.link}>
           <h1 className={styles.title}>SwipTory</h1>
         </Link>
-        {!user ? (
+        {!currentUser ? (
           <div className={styles.btns}>
             <button
               onClick={() => setOpenRegisterModal(true)}
@@ -80,9 +96,11 @@ export const Navbar = () => {
             />
             {openHamburgerMenu && (
               <div className={styles.menuArea}>
-                <h6 className={styles.yourName}>Your Name</h6>
+                <h6 className={styles.yourName}>{currentUser.username}</h6>
 
-                <button className={styles.logout}>Logout</button>
+                <button className={styles.logout} onClick={handleLogout}>
+                  Logout
+                </button>
               </div>
             )}
           </div>
