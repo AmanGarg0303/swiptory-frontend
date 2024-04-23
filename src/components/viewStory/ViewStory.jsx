@@ -120,24 +120,13 @@ export const ViewStory = ({
         }}
       >
         <div className={styles.story}>
-          {/* <div className={styles.progressBar}>
-            {story.map((s) => (
-              <progress
-                value={50}
-                max={100}
-                className={styles.progress}
-                style={{ width: "100%" / story.length }}
-              />
-            ))}
-          </div> */}
-
           <div className={styles.progressBarContainer}>
-            {story?.post?.map((slide, index) => {
-              const isCompleted = index <= currentSlideIndex;
-              const isActive = index === currentSlideIndex;
+            {story?.post?.map((s, i) => {
+              const isCompleted = i <= currentSlideIndex;
+              const isActive = i === currentSlideIndex;
               return (
                 <div
-                  key={index}
+                  key={i}
                   className={`${styles.progressBar} ${
                     isCompleted ? styles.progressBarCompleted : ""
                   } ${isActive ? styles.progressBarActive : ""}`}

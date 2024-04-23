@@ -115,5 +115,8 @@
 .progressBarActive {
   height: 5px;
   width: 100%;
-  background-color: #ffffff;
+  background-color: white;
+  background: linear-gradient(to right, #d9d9d980 50%, white 50%) right;
+  background-size: 200%;
+  transition: 3s ease-out;
 }
