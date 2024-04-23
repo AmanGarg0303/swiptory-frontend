@@ -4,9 +4,12 @@ import { ViewStory } from "../viewStory/ViewStory";
 import NoImage from "../../assets/No-Image-Placeholder.svg.png";
 import { TbEdit } from "react-icons/tb";
 import { useSelector } from "react-redux";
+import AddStory from "../modals/addStoryModal/AddStoryModal";
 
 export const SingleStory = ({ singleStory }) => {
   const [openViewStoryModal, setOpenViewStoryModal] = useState(false);
+
+  const [openCreateStoryModal, setOpenCreateStoryModal] = useState(false);
 
   const { currentUser } = useSelector((state) => state.user);
 
@@ -32,11 +35,20 @@ export const SingleStory = ({ singleStory }) => {
         </div>
 
         {currentUser && currentUser?._id === singleStory?.userId && (
-          <div className={styles.editBtn}>
+          <div
+            className={styles.editBtn}
+            onClick={() => setOpenCreateStoryModal(true)}
+          >
             <TbEdit size={21} />
             Edit
           </div>
         )}
+
+        <AddStory
+          openCreateStoryModal={openCreateStoryModal}
+          setOpenCreateStoryModal={setOpenCreateStoryModal}
+          singleStory={singleStory}
+        />
       </div>
 
       <ViewStory

@@ -117,34 +117,46 @@ const Form = (props) => {
   );
 };
 
-const AddStory = ({ openCreateStoryModal, setOpenCreateStoryModal }) => {
+const AddStory = ({
+  openCreateStoryModal,
+  setOpenCreateStoryModal,
+  singleStory,
+}) => {
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
 
+  // if (singleStory) {
+  //   console.log(singleStory);
+  // }
+
   const [activeSlideIndex, setActiveSlideIndex] = useState(1);
   const [slideCount, setSlideCount] = useState(3);
-  const [postData, setPostData] = useState({
-    slides: [
-      {
-        heading: "",
-        description: "",
-        imgUrl: "",
-        category: "",
-      },
-      {
-        heading: "",
-        description: "",
-        imgUrl: "",
-        category: "",
-      },
-      {
-        heading: "",
-        description: "",
-        imgUrl: "",
-        category: "",
-      },
-    ],
-  });
+  const [postData, setPostData] = useState(
+    singleStory
+      ? { slides: singleStory?.post }
+      : {
+          slides: [
+            {
+              heading: "",
+              description: "",
+              imgUrl: "",
+              category: "",
+            },
+            {
+              heading: "",
+              description: "",
+              imgUrl: "",
+              category: "",
+            },
+            {
+              heading: "",
+              description: "",
+              imgUrl: "",
+              category: "",
+            },
+          ],
+        }
+  );
   const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
@@ -270,6 +282,51 @@ const AddStory = ({ openCreateStoryModal, setOpenCreateStoryModal }) => {
     }
   };
 
+  const handleUpdate = async () => {
+    const error = postData.slides.some(
+      (slide) =>
+        slide.heading === "" ||
+        slide.description === "" ||
+        slide.imgUrl === "" ||
+        slide.category === ""
+    );
+
+    if (slideCount < 3) {
+      setShowError(true);
+      setErrorMessage("You need to have atleast 3 slides.");
+      return;
+    }
+
+    if (error) {
+      setShowError(true);
+      setErrorMessage("Please fill all the fields.");
+      return;
+    }
+
+    setShowError(false);
+    setErrorMessage("");
+
+    setInProcess(true);
+    try {
+      const dataToSend = {
+        post: postData.slides,
+        category: postData.slides[0].category,
+      };
+
+      const res = await newRequest.put(`/post/${singleStory._id}`, dataToSend);
+
+      //  console.log(res.data);
+      toast.success(res?.data?.message);
+      setOpenCreateStoryModal(false);
+    } catch (error) {
+      setShowError(true);
+      console.log(error);
+      setErrorMessage("Something went wrong!");
+    } finally {
+      setInProcess(false);
+    }
+  };
+
   return (
     <Modal
       opened={openCreateStoryModal}
@@ -333,8 +390,18 @@ const AddStory = ({ openCreateStoryModal, setOpenCreateStoryModal }) => {
               </button>
             </div>
             <div>
-              {id ? (
-                <button className={styles.postBtn}>Update</button>
+              {singleStory ? (
+                <button
+                  disabled={inProcess}
+                  className={styles.postBtn}
+                  onClick={handleUpdate}
+                >
+                  {inProcess ? (
+                    <AiOutlineLoading3Quarters className={styles.loadingIcon} />
+                  ) : (
+                    "Update"
+                  )}
+                </button>
               ) : (
                 <button
                   disabled={inProcess}
