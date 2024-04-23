@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import styles from "./addStoryModal.module.css";
 import modalCloseIcon from "../../../assets/modalCloseIcon.jpg";
 import { Modal } from "@mantine/core";
+import newRequest from "../../../utils/newRequest";
+import toast from "react-hot-toast";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const Slide = (props) => (
   <div className={styles.slideContainer}>
@@ -65,7 +68,7 @@ const Form = (props) => {
           onChange={(e) => {
             props.handleHeadingChange(props.activeSlideIndex, e.target.value);
           }}
-          value={props.postData.slides[props.activeSlideIndex - 1].header}
+          value={props.postData.slides[props.activeSlideIndex - 1].heading}
           type="text"
           placeholder="Your heading"
         />
@@ -89,7 +92,7 @@ const Form = (props) => {
           onChange={(e) => {
             props.handleImageChange(props.activeSlideIndex, e.target.value);
           }}
-          value={props.postData.slides[props.activeSlideIndex - 1].imageUrl}
+          value={props.postData.slides[props.activeSlideIndex - 1].imgUrl}
           type="text"
           placeholder="Add Image url"
         />
@@ -123,21 +126,21 @@ const AddStory = ({ openCreateStoryModal, setOpenCreateStoryModal }) => {
   const [postData, setPostData] = useState({
     slides: [
       {
-        header: "",
+        heading: "",
         description: "",
-        imageUrl: "",
+        imgUrl: "",
         category: "",
       },
       {
-        header: "",
+        heading: "",
         description: "",
-        imageUrl: "",
+        imgUrl: "",
         category: "",
       },
       {
-        header: "",
+        heading: "",
         description: "",
-        imageUrl: "",
+        imgUrl: "",
         category: "",
       },
     ],
@@ -151,9 +154,9 @@ const AddStory = ({ openCreateStoryModal, setOpenCreateStoryModal }) => {
     setActiveSlideIndex(slideCount + 1);
     const newPostData = { ...postData };
     newPostData.slides.push({
-      header: "",
+      heading: "",
       description: "",
-      imageUrl: "",
+      imgUrl: "",
       category: "",
     });
     setPostData(newPostData);
@@ -169,7 +172,7 @@ const AddStory = ({ openCreateStoryModal, setOpenCreateStoryModal }) => {
 
   const handleHeadingChange = (index, value) => {
     const newPostData = { ...postData };
-    newPostData.slides[index - 1].header = value;
+    newPostData.slides[index - 1].heading = value;
     setPostData(newPostData);
   };
 
@@ -181,7 +184,7 @@ const AddStory = ({ openCreateStoryModal, setOpenCreateStoryModal }) => {
 
   const handleImageChange = (index, value) => {
     const newPostData = { ...postData };
-    newPostData.slides[index - 1].imageUrl = value;
+    newPostData.slides[index - 1].imgUrl = value;
     setPostData(newPostData);
   };
 
@@ -218,6 +221,53 @@ const AddStory = ({ openCreateStoryModal, setOpenCreateStoryModal }) => {
 
     setSlideCount(slideCount - 1);
     setPostData(newPostData);
+  };
+
+  const [inProcess, setInProcess] = useState(false);
+
+  const handlePost = async () => {
+    const error = postData.slides.some(
+      (slide) =>
+        slide.heading === "" ||
+        slide.description === "" ||
+        slide.imgUrl === "" ||
+        slide.category === ""
+    );
+
+    if (slideCount < 3) {
+      setShowError(true);
+      setErrorMessage("You need to have atleast 3 slides.");
+      return;
+    }
+
+    if (error) {
+      setShowError(true);
+      setErrorMessage("Please fill all the fields.");
+      return;
+    }
+
+    setShowError(false);
+    setErrorMessage("");
+
+    setInProcess(true);
+    try {
+      const dataToSend = {
+        post: postData.slides,
+        category: postData.slides[0].category,
+      };
+
+      const res = await newRequest.post(`/post/`, dataToSend);
+
+      console.log(res.data);
+      toast.success(res?.data?.message);
+      setOpenCreateStoryModal(false);
+    } catch (error) {
+      setShowError(true);
+      console.log(error);
+      setErrorMessage("Something went wrong!");
+    } finally {
+      setInProcess(false);
+    }
   };
 
   return (
@@ -283,9 +333,21 @@ const AddStory = ({ openCreateStoryModal, setOpenCreateStoryModal }) => {
               </button>
             </div>
             <div>
-              <button className={styles.postBtn}>
-                {id ? "Update" : "Post"}
-              </button>
+              {id ? (
+                <button className={styles.postBtn}>Update</button>
+              ) : (
+                <button
+                  disabled={inProcess}
+                  className={styles.postBtn}
+                  onClick={handlePost}
+                >
+                  {inProcess ? (
+                    <AiOutlineLoading3Quarters className={styles.loadingIcon} />
+                  ) : (
+                    "Post"
+                  )}
+                </button>
+              )}
             </div>
           </div>
         </>
