@@ -1,9 +1,9 @@
 export const categoryData = [
-  // {
-  //   id: "1",
-  //   categoryName: "All",
-  //   img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1_5qL45U5p--LP_0J5hZTR0D4PWdftpeJ1z2HyLRE-g&s",
-  // },
+  {
+    id: "9",
+    categoryName: "All",
+    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1_5qL45U5p--LP_0J5hZTR0D4PWdftpeJ1z2HyLRE-g&s",
+  },
   {
     id: "1",
     categoryName: "Food",

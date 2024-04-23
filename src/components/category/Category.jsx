@@ -5,17 +5,20 @@ import getPostsByCat from "../../api/getPostsByCat";
 
 export const Category = ({ name }) => {
   const [data, setData] = useState([]);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchD = async () => {
-      const d = await getPostsByCat(name);
-      setData(d?.data);
+      try {
+        const d = await getPostsByCat(name);
+        setData(d?.data);
+      } catch (error) {
+        setError(error.message);
+      }
     };
 
     fetchD();
   }, [name]);
-
-  // console.log(data);
 
   return (
     <div className={styles.story}>

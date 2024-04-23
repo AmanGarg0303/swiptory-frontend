@@ -7,6 +7,7 @@ import "@mantine/core/styles.css";
 import { store, persistor } from "./redux/store";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
+import { ActiveFilterProvider } from "./providers/activeFilterProvider";
 
 const theme = createTheme({
   fontFamily: "Roboto, sans-serif",
@@ -17,9 +18,11 @@ root.render(
   // <React.StrictMode>
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-      <MantineProvider theme={theme}>
-        <App />
-      </MantineProvider>
+      <ActiveFilterProvider>
+        <MantineProvider theme={theme}>
+          <App />
+        </MantineProvider>
+      </ActiveFilterProvider>
     </PersistGate>
   </Provider>
   // </React.StrictMode>

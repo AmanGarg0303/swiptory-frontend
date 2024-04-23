@@ -1,13 +1,28 @@
 import styles from "./topStories.module.css";
 import { Category } from "../category/Category";
 import { categoryData } from "../../utils/cardsData";
+import { useActiveFilter } from "../../providers/activeFilterProvider";
 
 export const TopStories = () => {
+  const { activeFilter } = useActiveFilter();
+
   return (
     <div className={styles.container}>
-      {categoryData.map((card) => (
-        <Category name={card.categoryName} key={card.id} />
-      ))}
+      {categoryData.map(
+        (card) =>
+          card.categoryName !== "All" &&
+          activeFilter === "All" && (
+            <Category name={card.categoryName} key={card.id} />
+          )
+      )}
+
+      {categoryData.map(
+        (card) =>
+          card.categoryName !== "All" &&
+          card.categoryName === activeFilter && (
+            <Category name={card.categoryName} key={card.id} />
+          )
+      )}
     </div>
   );
 };
