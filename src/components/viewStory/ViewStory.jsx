@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Modal } from "@mantine/core";
 import styles from "./viewStory.module.css";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { FaBookmark } from "react-icons/fa";
 import { FaHeart, FaRegHeart, FaShare } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
+import toast from "react-hot-toast";
+import newRequest from "../../utils/newRequest";
 
 export const ViewStory = ({
   openViewStoryModal,
@@ -13,11 +15,24 @@ export const ViewStory = ({
   storyIdTrue,
   singleStory,
 }) => {
-  const searchParams = useSearchParams();
+  const searchParams = useParams();
   const { storyId } = searchParams;
-  if (storyId) {
-    console.log(storyId);
-  }
+
+  const [story, setStory] = useState(singleStory);
+
+  useEffect(() => {
+    if (storyId) {
+      const fetchStory = async () => {
+        try {
+          const res = await newRequest.get(`/post/${storyId}`);
+          setStory(res?.data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchStory();
+    }
+  }, [storyId]);
 
   useEffect(() => {
     if (storyIdTrue) {
@@ -26,32 +41,6 @@ export const ViewStory = ({
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [storyId]);
-
-  // console.log(storyId);
-
-  // if coming through story id, it means coming form a link, fetch the story here
-  // create a route /viewStory/1234567, and fetch the story, if we have storyId
-
-  // const story = [
-  //   {
-  //     heading: "First story",
-  //     desc: "first story description",
-  //     imgUrl:
-  //       "https://i.pinimg.com/474x/38/9c/ab/389cab4fab3baa1227257cd58e765237.jpg",
-  //   },
-  //   {
-  //     heading: "Second Story",
-  //     desc: "second story description",
-  //     imgUrl:
-  //       "https://images.unsplash.com/photo-1544376798-89aa6b82c6cd?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dmVydGljYWwlMjBsYW5kc2NhcGV8ZW58MHx8MHx8fDA%3D",
-  //   },
-  //   {
-  //     heading: "third story",
-  //     desc: "third story description",
-  //     imgUrl:
-  //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1u7IwgWuPpwVyK95isXHvNR4GaRpsA-ph6I-zVoQrvA&s",
-  //   },
-  // ];
 
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
 
@@ -62,7 +51,7 @@ export const ViewStory = ({
   }, [openViewStoryModal]);
 
   const handleNextSlide = () => {
-    if (currentSlideIndex < singleStory?.post.length - 1) {
+    if (currentSlideIndex < story?.post.length - 1) {
       setCurrentSlideIndex(currentSlideIndex + 1);
     }
   };
@@ -83,6 +72,13 @@ export const ViewStory = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentSlideIndex]);
   const navigate = useNavigate();
+
+  const handleCopyStoryLink = () => {
+    navigator.clipboard.writeText(
+      `http://localhost:3000/viewStory/${singleStory?._id}`
+    );
+    toast.success("Link copied successfully!");
+  };
 
   return (
     <>
@@ -136,7 +132,7 @@ export const ViewStory = ({
           </div> */}
 
           <div className={styles.progressBarContainer}>
-            {singleStory?.post?.map((slide, index) => {
+            {story?.post?.map((slide, index) => {
               const isCompleted = index <= currentSlideIndex;
               const isActive = index === currentSlideIndex;
               return (
@@ -160,23 +156,23 @@ export const ViewStory = ({
             >
               <IoClose size={25} />
             </div>
-            <div className={styles.shareIcon}>
+            <div className={styles.shareIcon} onClick={handleCopyStoryLink}>
               <FaShare size={25} />
             </div>
           </div>
 
           <img
-            src={singleStory?.post[currentSlideIndex]?.imgUrl}
+            src={story?.post[currentSlideIndex]?.imgUrl}
             alt=""
             className={styles.storyImage}
           />
 
           <div>
             <h6 className={styles.title}>
-              {singleStory?.post[currentSlideIndex]?.heading}
+              {story?.post[currentSlideIndex]?.heading}
             </h6>
             <p className={styles.desc}>
-              {singleStory?.post[currentSlideIndex]?.description}
+              {story?.post[currentSlideIndex]?.description}
             </p>
           </div>
 
@@ -184,9 +180,7 @@ export const ViewStory = ({
             <FaBookmark className={styles.bookmarkIcon} size={30} />
             <div>
               <FaRegHeart className={styles.heartIcon} size={30} />
-              <p className={styles.numberOfLikes}>
-                {singleStory?.likes.length}
-              </p>
+              <p className={styles.numberOfLikes}>{story?.likes.length}</p>
             </div>
           </div>
         </div>

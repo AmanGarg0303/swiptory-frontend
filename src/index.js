@@ -8,6 +8,7 @@ import { store, persistor } from "./redux/store";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { ActiveFilterProvider } from "./providers/activeFilterProvider";
+import { Toaster } from "react-hot-toast";
 
 const theme = createTheme({
   fontFamily: "Roboto, sans-serif",
@@ -22,6 +23,7 @@ root.render(
         <MantineProvider theme={theme}>
           <App />
         </MantineProvider>
+        <Toaster />
       </ActiveFilterProvider>
     </PersistGate>
   </Provider>
