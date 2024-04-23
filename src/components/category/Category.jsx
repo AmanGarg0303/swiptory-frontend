@@ -5,7 +5,8 @@ import getPostsByCat from "../../api/getPostsByCat";
 
 export const Category = ({ name }) => {
   const [data, setData] = useState([]);
-  const [error, setError] = useState("");
+  const [showMore, setShowMore] = useState(false);
+  const [currDataLen, setCurrDataLen] = useState(4);
 
   useEffect(() => {
     const fetchD = async () => {
@@ -13,7 +14,7 @@ export const Category = ({ name }) => {
         const d = await getPostsByCat(name);
         setData(d?.data);
       } catch (error) {
-        setError(error.message);
+        console.log(error);
       }
     };
 
@@ -23,8 +24,22 @@ export const Category = ({ name }) => {
   return (
     <div className={styles.story}>
       <h4 className={styles.storyCat}>Top Stories about {name}</h4>
-      <Stories story={data} />
-      <button className={styles.seeMoreBtn}>See More</button>
+
+      <Stories
+        story={showMore ? data.slice(0, data.length) : data.slice(0, 4)}
+      />
+
+      {data.length >= 5 && currDataLen !== data.length && (
+        <button
+          onClick={() => {
+            setShowMore(true);
+            setCurrDataLen(data.length);
+          }}
+          className={styles.seeMoreBtn}
+        >
+          See More
+        </button>
+      )}
     </div>
   );
 };

@@ -29,6 +29,12 @@
     left: 1rem;
     color: white;
     font-size: 18px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* number of lines to show */
+    -webkit-box-orient: vertical;
+    margin-right: 0.7rem;
   }
   .desc {
     position: absolute;
@@ -38,6 +44,12 @@
     font-size: 14px;
     font-weight: 400;
     line-height: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4; /* number of lines to show */
+    -webkit-box-orient: vertical;
+    margin-right: 0.7rem;
   }
 
   .bookmarkIcon {
