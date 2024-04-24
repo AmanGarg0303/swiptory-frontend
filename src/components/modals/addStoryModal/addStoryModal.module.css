@@ -142,3 +142,36 @@
     transform: rotate(360deg);
   }
 }
+
+.slideForm {
+  display: flex;
+  flex-direction: column;
+}
+
+@media only screen and (max-width: 768px) {
+  .allSlides {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .slideForm {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .formContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .formContainer > div {
+    display: flex;
+    flex-direction: column;
+  }
+  .formContainer > div > label {
+    width: 100%;
+    text-align: left;
+  }
+}

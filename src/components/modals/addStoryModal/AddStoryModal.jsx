@@ -333,21 +333,23 @@ const AddStory = ({
         className={styles.modalCloseIcon}
         onClick={() => setOpenCreateStoryModal(false)}
       />
-      <Slide
-        slideCount={slideCount}
-        activeSlideIndex={activeSlideIndex}
-        handleSlideClick={handleSlideClick}
-        handleAddSlide={handleAddSlide}
-        handleDeleteSlide={handleDeleteSlide}
-      />
-      <Form
-        postData={postData}
-        activeSlideIndex={activeSlideIndex}
-        handleHeadingChange={handleHeadingChange}
-        handleDescriptionChange={handleDescriptionChange}
-        handleImageChange={handleImageChange}
-        handleCategoryChange={handleCategoryChange}
-      />
+      <div className={styles.slideForm}>
+        <Slide
+          slideCount={slideCount}
+          activeSlideIndex={activeSlideIndex}
+          handleSlideClick={handleSlideClick}
+          handleAddSlide={handleAddSlide}
+          handleDeleteSlide={handleDeleteSlide}
+        />
+        <Form
+          postData={postData}
+          activeSlideIndex={activeSlideIndex}
+          handleHeadingChange={handleHeadingChange}
+          handleDescriptionChange={handleDescriptionChange}
+          handleImageChange={handleImageChange}
+          handleCategoryChange={handleCategoryChange}
+        />
+      </div>
       {showError && <div className={styles.error}>{errorMessage}</div>}
       <div className={styles.btnContainer}>
         <div className={styles.leftBtnContainer}>
