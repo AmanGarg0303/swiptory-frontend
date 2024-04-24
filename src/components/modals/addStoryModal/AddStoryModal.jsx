@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useSearchParams } from "react-router-dom";
 import styles from "./addStoryModal.module.css";
 import modalCloseIcon from "../../../assets/modalCloseIcon.jpg";
 import { Modal } from "@mantine/core";
@@ -122,13 +121,6 @@ const AddStory = ({
   setOpenCreateStoryModal,
   singleStory,
 }) => {
-  const [searchParams] = useSearchParams();
-  const id = searchParams.get("id");
-
-  // if (singleStory) {
-  //   console.log(singleStory);
-  // }
-
   const [activeSlideIndex, setActiveSlideIndex] = useState(1);
   const [slideCount, setSlideCount] = useState(3);
   const [postData, setPostData] = useState(
@@ -159,7 +151,6 @@ const AddStory = ({
   );
   const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   const handleAddSlide = () => {
     setSlideCount(slideCount + 1);
@@ -336,89 +327,81 @@ const AddStory = ({
       centered
       size="lg"
     >
-      {showSuccessMessage ? (
-        <h1 className={styles.formHeader}>
-          {id ? "Post updated successfully." : "Post created successfully."}
-        </h1>
-      ) : (
-        <>
-          <img
-            src={modalCloseIcon}
-            alt=""
-            className={styles.modalCloseIcon}
-            onClick={() => setOpenCreateStoryModal(false)}
-          />
-          <Slide
-            slideCount={slideCount}
-            activeSlideIndex={activeSlideIndex}
-            handleSlideClick={handleSlideClick}
-            handleAddSlide={handleAddSlide}
-            handleDeleteSlide={handleDeleteSlide}
-          />
-          <Form
-            postData={postData}
-            activeSlideIndex={activeSlideIndex}
-            handleHeadingChange={handleHeadingChange}
-            handleDescriptionChange={handleDescriptionChange}
-            handleImageChange={handleImageChange}
-            handleCategoryChange={handleCategoryChange}
-          />
-          {showError && <div className={styles.error}>{errorMessage}</div>}
-          <div className={styles.btnContainer}>
-            <div className={styles.leftBtnContainer}>
-              <button
-                onClick={() => {
-                  setActiveSlideIndex(activeSlideIndex - 1);
-                  if (activeSlideIndex === 1) {
-                    setActiveSlideIndex(1);
-                  }
-                }}
-                className={styles.prevBtn}
-              >
-                Previous
-              </button>
-              <button
-                onClick={() => {
-                  setActiveSlideIndex(activeSlideIndex + 1);
-                  if (activeSlideIndex === slideCount) {
-                    setActiveSlideIndex(slideCount);
-                  }
-                }}
-                className={styles.nextBtn}
-              >
-                Next
-              </button>
-            </div>
-            <div>
-              {singleStory ? (
-                <button
-                  disabled={inProcess}
-                  className={styles.postBtn}
-                  onClick={handleUpdate}
-                >
-                  {inProcess ? (
-                    <AiOutlineLoading3Quarters className={styles.loadingIcon} />
-                  ) : (
-                    "Update"
-                  )}
-                </button>
+      <img
+        src={modalCloseIcon}
+        alt=""
+        className={styles.modalCloseIcon}
+        onClick={() => setOpenCreateStoryModal(false)}
+      />
+      <Slide
+        slideCount={slideCount}
+        activeSlideIndex={activeSlideIndex}
+        handleSlideClick={handleSlideClick}
+        handleAddSlide={handleAddSlide}
+        handleDeleteSlide={handleDeleteSlide}
+      />
+      <Form
+        postData={postData}
+        activeSlideIndex={activeSlideIndex}
+        handleHeadingChange={handleHeadingChange}
+        handleDescriptionChange={handleDescriptionChange}
+        handleImageChange={handleImageChange}
+        handleCategoryChange={handleCategoryChange}
+      />
+      {showError && <div className={styles.error}>{errorMessage}</div>}
+      <div className={styles.btnContainer}>
+        <div className={styles.leftBtnContainer}>
+          <button
+            onClick={() => {
+              setActiveSlideIndex(activeSlideIndex - 1);
+              if (activeSlideIndex === 1) {
+                setActiveSlideIndex(1);
+              }
+            }}
+            className={styles.prevBtn}
+          >
+            Previous
+          </button>
+          <button
+            onClick={() => {
+              setActiveSlideIndex(activeSlideIndex + 1);
+              if (activeSlideIndex === slideCount) {
+                setActiveSlideIndex(slideCount);
+              }
+            }}
+            className={styles.nextBtn}
+          >
+            Next
+          </button>
+        </div>
+        <div>
+          {singleStory ? (
+            <button
+              disabled={inProcess}
+              className={styles.postBtn}
+              onClick={handleUpdate}
+            >
+              {inProcess ? (
+                <AiOutlineLoading3Quarters className={styles.loadingIcon} />
               ) : (
-                <button
-                  disabled={inProcess}
-                  className={styles.postBtn}
-                  onClick={handlePost}
-                >
-                  {inProcess ? (
-                    <AiOutlineLoading3Quarters className={styles.loadingIcon} />
-                  ) : (
-                    "Post"
-                  )}
-                </button>
+                "Update"
               )}
-            </div>
-          </div>
-        </>
-      )}
+            </button>
+          ) : (
+            <button
+              disabled={inProcess}
+              className={styles.postBtn}
+              onClick={handlePost}
+            >
+              {inProcess ? (
+                <AiOutlineLoading3Quarters className={styles.loadingIcon} />
+              ) : (
+                "Post"
+              )}
+            </button>
+          )}
+        </div>
+      </div>
     </Modal>
   );
 };

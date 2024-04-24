@@ -5,9 +5,12 @@ import { Navbar } from "./components/navbar/Navbar";
 import Bookmarks from "./pages/bookmarks/Bookmarks";
 import { ViewStory } from "./components/viewStory/ViewStory";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 function App() {
   const [openViewStoryModal, setOpenViewStoryModal] = useState(false);
+
+  const { currentUser } = useSelector((state) => state.user);
 
   const HomeLayout = () => {
     return (
@@ -29,7 +32,7 @@ function App() {
         },
         {
           path: "/bookmarks",
-          element: <Bookmarks />,
+          element: currentUser ? <Bookmarks /> : <Homepage />,
         },
         {
           path: "/viewStory/:storyId",

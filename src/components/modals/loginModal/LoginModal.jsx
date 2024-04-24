@@ -26,14 +26,14 @@ export const LoginModal = ({ openLoginModal, setOpenLoginModal }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(loginStart());
 
     try {
+      // dispatch(loginStart());
+
       const res = await newRequest.post(`/auth/login`, {
         username,
         password,
       });
-
       dispatch(loginSuccess(res.data));
       setOpenLoginModal(false);
       toast.success("Logged in successfully!");

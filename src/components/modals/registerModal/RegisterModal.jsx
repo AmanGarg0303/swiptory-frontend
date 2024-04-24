@@ -26,9 +26,9 @@ export const RegisterModal = ({ openRegisterModal, setOpenRegisterModal }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(loginStart());
 
     try {
+      // dispatch(loginStart());
       const res = await newRequest.post(`/auth/register`, {
         username,
         password,
