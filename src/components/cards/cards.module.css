@@ -4,3 +4,11 @@
   gap: 2rem;
   overflow-x: auto;
 }
+.container::-webkit-scrollbar {
+  display: none;
+}
+
+.container {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
