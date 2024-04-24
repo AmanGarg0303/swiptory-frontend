@@ -4,7 +4,7 @@ import { RegisterModal } from "../modals/registerModal/RegisterModal";
 import { LoginModal } from "../modals/loginModal/LoginModal";
 import { FaBookmark } from "react-icons/fa";
 import { IoMenuSharp } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AddStory from "../modals/addStoryModal/AddStoryModal";
 import { useSelector, useDispatch } from "react-redux";
 import newRequest from "../../utils/newRequest";
@@ -32,6 +32,13 @@ export const Navbar = () => {
       console.log(error);
       toast.error("Something went wrong!");
     }
+  };
+
+  const navigate = useNavigate();
+
+  const handleNavigate = (address) => {
+    navigate(address);
+    setOpenMobile(false);
   };
 
   return (
@@ -112,6 +119,7 @@ export const Navbar = () => {
           )}
         </div>
 
+        {/* Phone area  */}
         <div className={styles.smallScreen}>
           {!openMobile ? (
             <IoMenuSharp
@@ -140,15 +148,25 @@ export const Navbar = () => {
                     {currentUser?.username}
                   </h6>
                 </div>
+                <Link
+                  to={"/yourStories"}
+                  className={styles.link}
+                  onClick={() => setOpenMobile(false)}
+                >
+                  <button className={styles.mobBtn}>Your Story</button>
+                </Link>
 
-                <button className={styles.mobBtn}>Your Story</button>
                 <button
                   onClick={() => setOpenCreateStoryModal(true)}
                   className={styles.mobBtn}
                 >
                   Add Story
                 </button>
-                <Link to={"/bookmarks"} className={styles.link}>
+                <Link
+                  to={"/bookmarks"}
+                  className={styles.link}
+                  onClick={() => setOpenMobile(false)}
+                >
                   <button className={styles.mobBtn}>
                     <FaBookmark />
                     Bookmarks

@@ -6,6 +6,7 @@ import Bookmarks from "./pages/bookmarks/Bookmarks";
 import { ViewStory } from "./components/viewStory/ViewStory";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import YourStories from "./pages/yourStories/YourStories";
 
 function App() {
   const [openViewStoryModal, setOpenViewStoryModal] = useState(false);
@@ -33,6 +34,10 @@ function App() {
         {
           path: "/bookmarks",
           element: currentUser ? <Bookmarks /> : <Homepage />,
+        },
+        {
+          path: "/yourStories",
+          element: currentUser ? <YourStories /> : <Homepage />,
         },
         {
           path: "/viewStory/:storyId",
