@@ -59,12 +59,26 @@
     color: white;
     cursor: pointer;
   }
+  .bookmarkActiveIcon {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    color: blue;
+    cursor: pointer;
+  }
 
   .heartIcon {
     position: absolute;
     bottom: 1rem;
     right: 50px;
     color: white;
+    cursor: pointer;
+  }
+  .heartActiveIcon {
+    position: absolute;
+    bottom: 1rem;
+    right: 50px;
+    color: red;
     cursor: pointer;
   }
 

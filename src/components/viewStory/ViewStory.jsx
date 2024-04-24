@@ -8,6 +8,8 @@ import { FaHeart, FaRegHeart, FaShare } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import toast from "react-hot-toast";
 import newRequest from "../../utils/newRequest";
+import { useSelector, useDispatch } from "react-redux";
+import { updateBookmarks, likeDislikePost } from "../../redux/userSlice";
 
 export const ViewStory = ({
   openViewStoryModal,
@@ -17,6 +19,9 @@ export const ViewStory = ({
 }) => {
   const searchParams = useParams();
   const { storyId } = searchParams;
+
+  const { currentUser } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const [story, setStory] = useState(singleStory);
 
@@ -80,6 +85,26 @@ export const ViewStory = ({
     toast.success("Link copied successfully!");
   };
 
+  const handleBookmark = async () => {
+    try {
+      const res = await newRequest.put(`/user/${story._id}`);
+      dispatch(updateBookmarks(story._id));
+      toast.success(res?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleLikeDislike = async () => {
+    try {
+      const res = await newRequest.put(`/user/likeUnlike/${story._id}`);
+      dispatch(likeDislikePost(story._id));
+      toast.success(res?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <Modal
@@ -95,6 +120,7 @@ export const ViewStory = ({
           blur: 3,
           children: [
             <FaChevronLeft
+              key={101}
               onClick={handlePreviousSlide}
               style={{
                 position: "absolute",
@@ -106,6 +132,7 @@ export const ViewStory = ({
               size={55}
             />,
             <FaChevronRight
+              key={102}
               onClick={handleNextSlide}
               style={{
                 position: "absolute",
@@ -166,9 +193,33 @@ export const ViewStory = ({
           </div>
 
           <div className={styles.iconDiv}>
-            <FaBookmark className={styles.bookmarkIcon} size={30} />
+            {currentUser?.bookmarks.includes(story._id) ? (
+              <FaBookmark
+                onClick={handleBookmark}
+                className={styles.bookmarkActiveIcon}
+                size={30}
+              />
+            ) : (
+              <FaBookmark
+                onClick={handleBookmark}
+                className={styles.bookmarkIcon}
+                size={30}
+              />
+            )}
             <div>
-              <FaRegHeart className={styles.heartIcon} size={30} />
+              {currentUser?.liked.includes(story._id) ? (
+                <FaHeart
+                  onClick={handleLikeDislike}
+                  className={styles.heartActiveIcon}
+                  size={30}
+                />
+              ) : (
+                <FaRegHeart
+                  onClick={handleLikeDislike}
+                  className={styles.heartIcon}
+                  size={30}
+                />
+              )}
               <p className={styles.numberOfLikes}>{story?.likes.length}</p>
             </div>
           </div>

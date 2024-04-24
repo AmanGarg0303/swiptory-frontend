@@ -26,10 +26,40 @@ export const userSlice = createSlice({
       state.loading = false;
       state.error = false;
     },
+    updateBookmarks: (state, action) => {
+      if (!state.currentUser?.bookmarks?.includes(action.payload)) {
+        state.currentUser?.bookmarks?.push(action.payload);
+      } else {
+        state.currentUser?.bookmarks?.splice(
+          state.currentUser?.bookmarks.findIndex(
+            (postId) => postId === action.payload
+          ),
+          1
+        );
+      }
+    },
+    likeDislikePost: (state, action) => {
+      if (!state.currentUser?.liked?.includes(action.payload)) {
+        state.currentUser?.liked?.push(action.payload);
+      } else {
+        state.currentUser?.liked?.splice(
+          state.currentUser?.liked.findIndex(
+            (postId) => postId === action.payload
+          ),
+          1
+        );
+      }
+    },
   },
 });
 
-export const { loginStart, loginSuccess, loginFailure, logout } =
-  userSlice.actions;
+export const {
+  loginStart,
+  loginSuccess,
+  loginFailure,
+  logout,
+  updateBookmarks,
+  likeDislikePost,
+} = userSlice.actions;
 
 export default userSlice.reducer;
