@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from "react-redux";
 import newRequest from "../../utils/newRequest";
 import toast from "react-hot-toast";
 import { logout } from "../../redux/userSlice";
+import { IoClose } from "react-icons/io5";
 
 export const Navbar = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -19,6 +20,8 @@ export const Navbar = () => {
   const [openLoginModal, setOpenLoginModal] = useState(false);
   const [openHamburgerMenu, setOpenHamburgerMenu] = useState(false);
   const [openCreateStoryModal, setOpenCreateStoryModal] = useState(false);
+
+  const [openMobile, setOpenMobile] = useState(false);
 
   const handleLogout = async () => {
     try {
@@ -37,74 +40,141 @@ export const Navbar = () => {
         <Link to={"/"} className={styles.link}>
           <h1 className={styles.title}>SwipTory</h1>
         </Link>
-        {!currentUser ? (
-          <div className={styles.btns}>
-            <button
-              onClick={() => setOpenRegisterModal(true)}
-              className={styles.register}
-            >
-              Register Now
-            </button>
-            <RegisterModal
-              openRegisterModal={openRegisterModal}
-              setOpenRegisterModal={setOpenRegisterModal}
-            />
 
-            <button
-              onClick={() => setOpenLoginModal(true)}
-              className={styles.login}
-            >
-              Sign In
-            </button>
-            <LoginModal
-              openLoginModal={openLoginModal}
-              setOpenLoginModal={setOpenLoginModal}
-            />
-          </div>
-        ) : (
-          <div className={styles.availabeUserBtns}>
+        <div className={styles.bigScreen}>
+          {!currentUser ? (
             <div className={styles.btns}>
-              <Link to={"/bookmarks"} className={styles.link}>
-                <button className={styles.bookmarks}>
-                  <FaBookmark fill="white" />
-                  Bookmarks
-                </button>
-              </Link>
+              <button
+                onClick={() => setOpenRegisterModal(true)}
+                className={styles.register}
+              >
+                Register Now
+              </button>
+              <RegisterModal
+                openRegisterModal={openRegisterModal}
+                setOpenRegisterModal={setOpenRegisterModal}
+              />
 
               <button
-                onClick={() => setOpenCreateStoryModal(true)}
-                className={styles.addStory}
+                onClick={() => setOpenLoginModal(true)}
+                className={styles.login}
               >
-                Add Story
+                Sign In
               </button>
-              <AddStory
-                openCreateStoryModal={openCreateStoryModal}
-                setOpenCreateStoryModal={setOpenCreateStoryModal}
+              <LoginModal
+                openLoginModal={openLoginModal}
+                setOpenLoginModal={setOpenLoginModal}
               />
             </div>
+          ) : (
+            <div className={styles.availabeUserBtns}>
+              <div className={styles.btns}>
+                <Link to={"/bookmarks"} className={styles.link}>
+                  <button className={styles.bookmarks}>
+                    <FaBookmark fill="white" />
+                    Bookmarks
+                  </button>
+                </Link>
 
-            <img
-              src="https://avatars.githubusercontent.com/u/99589204?v=4"
-              alt=""
-              className={styles.userImg}
-            />
+                <button
+                  onClick={() => setOpenCreateStoryModal(true)}
+                  className={styles.addStory}
+                >
+                  Add Story
+                </button>
+                <AddStory
+                  openCreateStoryModal={openCreateStoryModal}
+                  setOpenCreateStoryModal={setOpenCreateStoryModal}
+                />
+              </div>
 
+              <img
+                src="https://avatars.githubusercontent.com/u/99589204?v=4"
+                alt=""
+                className={styles.userImg}
+              />
+
+              <IoMenuSharp
+                size={30}
+                className={styles.menuIcon}
+                onClick={() => setOpenHamburgerMenu(!openHamburgerMenu)}
+              />
+              {openHamburgerMenu && (
+                <div className={styles.menuArea}>
+                  <h6 className={styles.yourName}>{currentUser.username}</h6>
+
+                  <button className={styles.logout} onClick={handleLogout}>
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
+        <div className={styles.smallScreen}>
+          {!openMobile ? (
             <IoMenuSharp
+              onClick={() => setOpenMobile(true)}
               size={30}
               className={styles.menuIcon}
-              onClick={() => setOpenHamburgerMenu(!openHamburgerMenu)}
             />
-            {openHamburgerMenu && (
-              <div className={styles.menuArea}>
-                <h6 className={styles.yourName}>{currentUser.username}</h6>
+          ) : (
+            <IoClose
+              onClick={() => setOpenMobile(false)}
+              size={30}
+              className={styles.menuIcon}
+            />
+          )}
 
-                <button className={styles.logout} onClick={handleLogout}>
+          {openMobile &&
+            (currentUser ? (
+              <div className={styles.mobContainer}>
+                <div className={styles.profileArea}>
+                  <img
+                    src="https://avatars.githubusercontent.com/u/99589204?v=4"
+                    alt=""
+                    className={styles.userImg}
+                  />
+                  <h6 className={styles.yourNameMob}>
+                    {currentUser?.username}
+                  </h6>
+                </div>
+
+                <button className={styles.mobBtn}>Your Story</button>
+                <button
+                  onClick={() => setOpenCreateStoryModal(true)}
+                  className={styles.mobBtn}
+                >
+                  Add Story
+                </button>
+                <Link to={"/bookmarks"} className={styles.link}>
+                  <button className={styles.mobBtn}>
+                    <FaBookmark />
+                    Bookmarks
+                  </button>
+                </Link>
+                <button className={styles.mobBtn} onClick={handleLogout}>
                   Logout
                 </button>
               </div>
-            )}
-          </div>
-        )}
+            ) : (
+              <div className={styles.mobContainer}>
+                <button
+                  onClick={() => setOpenLoginModal(true)}
+                  className={styles.mobBtn}
+                >
+                  Login
+                </button>
+                <button
+                  onClick={() => setOpenRegisterModal(true)}
+                  className={styles.mobBtn}
+                >
+                  Register
+                </button>
+              </div>
+            ))}
+        </div>
       </div>
     </div>
   );
