@@ -134,3 +134,15 @@
   background-size: 200%;
   transition: 3s ease-out;
 }
+
+@media only screen and (max-width: 600px) {
+  .storyImage {
+    height: 100vh !important;
+  }
+  .title {
+    top: 33rem !important;
+  }
+  .desc {
+    top: 35rem !important;
+  }
+}

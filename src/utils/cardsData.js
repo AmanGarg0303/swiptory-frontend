@@ -11,7 +11,7 @@ export const categoryData = [
   },
   {
     id: "2",
-    categoryName: "Health and Fitness",
+    categoryName: "Health",
     img: "https://images.everydayhealth.com/images/everything-you-need-know-about-fitness-1440x810.jpg",
   },
   {

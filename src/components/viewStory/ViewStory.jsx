@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 import newRequest from "../../utils/newRequest";
 import { useSelector, useDispatch } from "react-redux";
 import { updateBookmarks, likeDislikePost } from "../../redux/userSlice";
+import { useMediaQuery } from "@mantine/hooks";
 
 export const ViewStory = ({
   openViewStoryModal,
@@ -105,6 +106,8 @@ export const ViewStory = ({
     }
   };
 
+  const isMobile = useMediaQuery("(max-width: 600px)");
+
   return (
     <>
       <Modal
@@ -115,6 +118,7 @@ export const ViewStory = ({
         centered
         padding={0}
         size="sm"
+        fullScreen={isMobile}
         overlayProps={{
           backgroundOpacity: 0.7,
           blur: 3,
