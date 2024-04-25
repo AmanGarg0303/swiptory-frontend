@@ -11,6 +11,7 @@ import newRequest from "../../utils/newRequest";
 import { useSelector, useDispatch } from "react-redux";
 import { updateBookmarks, likeDislikePost } from "../../redux/userSlice";
 import { useMediaQuery } from "@mantine/hooks";
+import { LoginModal } from "../modals/loginModal/LoginModal";
 
 export const ViewStory = ({
   openViewStoryModal,
@@ -20,6 +21,8 @@ export const ViewStory = ({
 }) => {
   const searchParams = useParams();
   const { storyId } = searchParams;
+
+  const [openLoginModal, setOpenLoginModal] = useState(false);
 
   const { currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -88,6 +91,10 @@ export const ViewStory = ({
   };
 
   const handleBookmark = async () => {
+    if (!currentUser) {
+      setOpenLoginModal(true);
+    }
+
     try {
       const res = await newRequest.put(`/user/${story?._id}`);
       dispatch(updateBookmarks(story._id));
@@ -98,6 +105,9 @@ export const ViewStory = ({
   };
 
   const handleLikeDislike = async () => {
+    if (!currentUser) {
+      setOpenLoginModal(true);
+    }
     try {
       const res = await newRequest.put(`/user/likeUnlike/${story?._id}`);
       dispatch(likeDislikePost(story?._id));
@@ -240,6 +250,11 @@ export const ViewStory = ({
             </div>
           </div>
         </div>
+
+        <LoginModal
+          openLoginModal={openLoginModal}
+          setOpenLoginModal={setOpenLoginModal}
+        />
       </Modal>
     </>
   );
