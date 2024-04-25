@@ -4,11 +4,7 @@ import { useState } from "react";
 import { FaEyeSlash } from "react-icons/fa6";
 import { FaEye } from "react-icons/fa";
 import { IoIosCloseCircleOutline } from "react-icons/io";
-import {
-  loginStart,
-  loginSuccess,
-  loginFailure,
-} from "../../../redux/userSlice";
+import { loginSuccess, loginFailure } from "../../../redux/userSlice";
 import toast from "react-hot-toast";
 import newRequest from "../../../utils/newRequest";
 import { useDispatch } from "react-redux";
@@ -28,7 +24,6 @@ export const RegisterModal = ({ openRegisterModal, setOpenRegisterModal }) => {
     e.preventDefault();
 
     try {
-      // dispatch(loginStart());
       const res = await newRequest.post(`/auth/register`, {
         username,
         password,

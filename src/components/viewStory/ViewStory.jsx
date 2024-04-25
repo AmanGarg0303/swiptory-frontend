@@ -40,15 +40,20 @@ export const ViewStory = ({
     }
   }, [storyId]);
 
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+
   useEffect(() => {
     if (storyIdTrue) {
       setOpenViewStoryModal(true);
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [storyId]);
 
-  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  const handleNextSlide = () => {
+    if (currentSlideIndex < story?.post.length - 1) {
+      setCurrentSlideIndex(currentSlideIndex + 1);
+    }
+  };
 
   useEffect(() => {
     if (openViewStoryModal) {
@@ -56,11 +61,6 @@ export const ViewStory = ({
     }
   }, [openViewStoryModal]);
 
-  const handleNextSlide = () => {
-    if (currentSlideIndex < story?.post.length - 1) {
-      setCurrentSlideIndex(currentSlideIndex + 1);
-    }
-  };
   const handlePreviousSlide = () => {
     if (currentSlideIndex > 0) {
       setCurrentSlideIndex(currentSlideIndex - 1);
@@ -77,18 +77,19 @@ export const ViewStory = ({
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentSlideIndex]);
+
   const navigate = useNavigate();
 
   const handleCopyStoryLink = () => {
     navigator.clipboard.writeText(
-      `http://localhost:3000/viewStory/${singleStory?._id}`
+      `http://localhost:3000/viewStory/${story?._id}`
     );
     toast.success("Link copied successfully!");
   };
 
   const handleBookmark = async () => {
     try {
-      const res = await newRequest.put(`/user/${story._id}`);
+      const res = await newRequest.put(`/user/${story?._id}`);
       dispatch(updateBookmarks(story._id));
       toast.success(res?.data);
     } catch (error) {
@@ -98,8 +99,8 @@ export const ViewStory = ({
 
   const handleLikeDislike = async () => {
     try {
-      const res = await newRequest.put(`/user/likeUnlike/${story._id}`);
-      dispatch(likeDislikePost(story._id));
+      const res = await newRequest.put(`/user/likeUnlike/${story?._id}`);
+      dispatch(likeDislikePost(story?._id));
       toast.success(res?.data);
     } catch (error) {
       console.log(error);
@@ -208,7 +209,7 @@ export const ViewStory = ({
           </div>
 
           <div className={styles.iconDiv}>
-            {currentUser?.bookmarks.includes(story._id) ? (
+            {currentUser?.bookmarks.includes(story?._id) ? (
               <FaBookmark
                 onClick={handleBookmark}
                 className={styles.bookmarkActiveIcon}
@@ -222,7 +223,7 @@ export const ViewStory = ({
               />
             )}
             <div>
-              {currentUser?.liked.includes(story._id) ? (
+              {currentUser?.liked.includes(story?._id) ? (
                 <FaHeart
                   onClick={handleLikeDislike}
                   className={styles.heartActiveIcon}

@@ -5,11 +5,7 @@ import { FaEyeSlash } from "react-icons/fa6";
 import { FaEye } from "react-icons/fa";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { useDispatch } from "react-redux";
-import {
-  loginStart,
-  loginSuccess,
-  loginFailure,
-} from "../../../redux/userSlice";
+import { loginSuccess, loginFailure } from "../../../redux/userSlice";
 import newRequest from "../../../utils/newRequest";
 import toast from "react-hot-toast";
 
@@ -28,8 +24,6 @@ export const LoginModal = ({ openLoginModal, setOpenLoginModal }) => {
     e.preventDefault();
 
     try {
-      // dispatch(loginStart());
-
       const res = await newRequest.post(`/auth/login`, {
         username,
         password,

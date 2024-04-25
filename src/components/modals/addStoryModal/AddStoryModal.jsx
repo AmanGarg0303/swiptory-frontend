@@ -6,44 +6,50 @@ import newRequest from "../../../utils/newRequest";
 import toast from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
-const Slide = (props) => (
+const Slide = ({
+  slideCount,
+  activeSlideIdx,
+  handleSlideClick,
+  handleAddSlide,
+  handleDeleteSlide,
+}) => (
   <div className={styles.slideContainer}>
     <p className={styles.heading}>Add upto 6 slides</p>
     <div className={styles.allSlides}>
-      {[...Array(props.slideCount)].map((_, index) => (
+      {[...Array(slideCount)].map((_, index) => (
         <div
           key={index}
-          onClick={() => props.handleSlideClick(index + 1)}
+          onClick={() => handleSlideClick(index + 1)}
           style={{
             border:
-              index + 1 === props.activeSlideIndex
+              index + 1 === activeSlideIdx
                 ? "2px solid #73ABFF"
                 : "2px solid transparent",
           }}
           className={styles.slideNumber}
         >
           Slide {index + 1}
-          {props.activeSlideIndex === index + 1 && (
+          {activeSlideIdx === index + 1 && (
             <img
               onClick={async () => {
-                if (index + 1 === props.slideCount) {
-                  await props.handleSlideClick(index + 1);
-                  props.handleDeleteSlide(index + 1);
+                if (index + 1 === slideCount) {
+                  await handleSlideClick(index + 1);
+                  handleDeleteSlide(index + 1);
                 } else {
-                  props.handleDeleteSlide(index + 1);
+                  handleDeleteSlide(index + 1);
                 }
               }}
               className={styles.modalCloseIcon}
               src={modalCloseIcon}
-              alt="modal-close-icon"
+              alt="closeBtn"
             />
           )}
         </div>
       ))}
-      {props.slideCount < 6 && (
+      {slideCount < 6 && (
         <div
           onClick={() => {
-            props.handleAddSlide();
+            handleAddSlide();
           }}
           className={styles.addSlide}
         >
@@ -54,8 +60,15 @@ const Slide = (props) => (
   </div>
 );
 
-const Form = (props) => {
-  if (props.activeSlideIndex > props.postData.slides.length) {
+const Form = ({
+  postData,
+  activeSlideIdx,
+  handleHeadingChange,
+  handleDescriptionChange,
+  handleImageChange,
+  handleCategoryChange,
+}) => {
+  if (activeSlideIdx > postData.slides.length) {
     return null;
   }
 
@@ -65,9 +78,9 @@ const Form = (props) => {
         <label>Heading:</label>
         <input
           onChange={(e) => {
-            props.handleHeadingChange(props.activeSlideIndex, e.target.value);
+            handleHeadingChange(activeSlideIdx, e.target.value);
           }}
-          value={props.postData.slides[props.activeSlideIndex - 1].heading}
+          value={postData.slides[activeSlideIdx - 1].heading}
           type="text"
           placeholder="Your heading"
         />
@@ -76,12 +89,9 @@ const Form = (props) => {
         <label>Description:</label>
         <textarea
           onChange={(e) => {
-            props.handleDescriptionChange(
-              props.activeSlideIndex,
-              e.target.value
-            );
+            handleDescriptionChange(activeSlideIdx, e.target.value);
           }}
-          value={props.postData.slides[props.activeSlideIndex - 1].description}
+          value={postData.slides[activeSlideIdx - 1].description}
           placeholder="Story description"
         ></textarea>
       </div>
@@ -89,20 +99,20 @@ const Form = (props) => {
         <label>Image:</label>
         <input
           onChange={(e) => {
-            props.handleImageChange(props.activeSlideIndex, e.target.value);
+            handleImageChange(activeSlideIdx, e.target.value);
           }}
-          value={props.postData.slides[props.activeSlideIndex - 1].imgUrl}
+          value={postData.slides[activeSlideIdx - 1].imgUrl}
           type="text"
-          placeholder="Add Image url"
+          placeholder="Add Image Url"
         />
       </div>
       <div>
         <label>Category:</label>
         <select
           onChange={(e) => {
-            props.handleCategoryChange(props.activeSlideIndex, e.target.value);
+            handleCategoryChange(activeSlideIdx, e.target.value);
           }}
-          value={props.postData.slides[props.activeSlideIndex - 1].category}
+          value={postData.slides[activeSlideIdx - 1].category}
         >
           <option value="">Select Category</option>
           <option value="food">Food</option>
@@ -121,7 +131,7 @@ const AddStory = ({
   setOpenCreateStoryModal,
   singleStory,
 }) => {
-  const [activeSlideIndex, setActiveSlideIndex] = useState(1);
+  const [activeSlideIdx, setActiveSlideIdx] = useState(1);
   const [slideCount, setSlideCount] = useState(3);
   const [postData, setPostData] = useState(
     singleStory
@@ -154,7 +164,7 @@ const AddStory = ({
 
   const handleAddSlide = () => {
     setSlideCount(slideCount + 1);
-    setActiveSlideIndex(slideCount + 1);
+    setActiveSlideIdx(slideCount + 1);
     const newPostData = { ...postData };
     newPostData.slides.push({
       heading: "",
@@ -170,7 +180,7 @@ const AddStory = ({
   };
 
   const handleSlideClick = (index) => {
-    setActiveSlideIndex(index);
+    setActiveSlideIdx(index);
   };
 
   const handleHeadingChange = (index, value) => {
@@ -210,16 +220,16 @@ const AddStory = ({
       return;
     }
     if (index === postData.slides.length) {
-      setActiveSlideIndex(index - 1);
+      setActiveSlideIdx(index - 1);
     }
 
     const newPostData = { ...postData };
     newPostData.slides.splice(index - 1, 1);
 
-    if (index === activeSlideIndex) {
-      setActiveSlideIndex(Math.max(index - 1, 1));
-    } else if (index < activeSlideIndex) {
-      setActiveSlideIndex(activeSlideIndex - 1);
+    if (index === activeSlideIdx) {
+      setActiveSlideIdx(Math.max(index - 1, 1));
+    } else if (index < activeSlideIdx) {
+      setActiveSlideIdx(activeSlideIdx - 1);
     }
 
     setSlideCount(slideCount - 1);
@@ -336,14 +346,14 @@ const AddStory = ({
       <div className={styles.slideForm}>
         <Slide
           slideCount={slideCount}
-          activeSlideIndex={activeSlideIndex}
+          activeSlideIdx={activeSlideIdx}
           handleSlideClick={handleSlideClick}
           handleAddSlide={handleAddSlide}
           handleDeleteSlide={handleDeleteSlide}
         />
         <Form
           postData={postData}
-          activeSlideIndex={activeSlideIndex}
+          activeSlideIdx={activeSlideIdx}
           handleHeadingChange={handleHeadingChange}
           handleDescriptionChange={handleDescriptionChange}
           handleImageChange={handleImageChange}
@@ -355,9 +365,9 @@ const AddStory = ({
         <div className={styles.leftBtnContainer}>
           <button
             onClick={() => {
-              setActiveSlideIndex(activeSlideIndex - 1);
-              if (activeSlideIndex === 1) {
-                setActiveSlideIndex(1);
+              setActiveSlideIdx(activeSlideIdx - 1);
+              if (activeSlideIdx === 1) {
+                setActiveSlideIdx(1);
               }
             }}
             className={styles.prevBtn}
@@ -366,9 +376,9 @@ const AddStory = ({
           </button>
           <button
             onClick={() => {
-              setActiveSlideIndex(activeSlideIndex + 1);
-              if (activeSlideIndex === slideCount) {
-                setActiveSlideIndex(slideCount);
+              setActiveSlideIdx(activeSlideIdx + 1);
+              if (activeSlideIdx === slideCount) {
+                setActiveSlideIdx(slideCount);
               }
             }}
             className={styles.nextBtn}
