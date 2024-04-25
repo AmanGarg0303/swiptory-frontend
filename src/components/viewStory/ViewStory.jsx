@@ -185,6 +185,17 @@ export const ViewStory = ({
             src={story?.post[currentSlideIndex]?.imgUrl}
             alt=""
             className={styles.storyImage}
+            onClick={(e) => {
+              const { offsetX } = e.nativeEvent;
+              const { width } = e.target.getBoundingClientRect();
+              if (isMobile) {
+                if (offsetX < width / 2) {
+                  handlePreviousSlide();
+                } else {
+                  handleNextSlide();
+                }
+              }
+            }}
           />
 
           <div>
