@@ -4,7 +4,7 @@ import { RegisterModal } from "../modals/registerModal/RegisterModal";
 import { LoginModal } from "../modals/loginModal/LoginModal";
 import { FaBookmark } from "react-icons/fa";
 import { IoMenuSharp } from "react-icons/io5";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import AddStory from "../modals/addStoryModal/AddStoryModal";
 import { useSelector, useDispatch } from "react-redux";
 import newRequest from "../../utils/newRequest";
@@ -32,13 +32,6 @@ export const Navbar = () => {
       console.log(error);
       toast.error("Something went wrong!");
     }
-  };
-
-  const navigate = useNavigate();
-
-  const handleNavigate = (address) => {
-    navigate(address);
-    setOpenMobile(false);
   };
 
   return (
