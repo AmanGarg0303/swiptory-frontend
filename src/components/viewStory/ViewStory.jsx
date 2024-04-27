@@ -85,7 +85,7 @@ export const ViewStory = ({
 
   const handleCopyStoryLink = () => {
     navigator.clipboard.writeText(
-      `http://localhost:3000/viewStory/${story?._id}`
+      `https://swiptory-frontend-three.vercel.app/viewStory/${story?._id}`
     );
     toast.success("Link copied successfully!");
   };
